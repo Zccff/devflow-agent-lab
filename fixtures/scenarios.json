@@ -2,6 +2,77 @@
   "repository": "Zccff/devflow-agent-lab",
   "url": "https://github.com/Zccff/devflow-agent-lab",
   "synthetic_only": true,
-  "issues": [],
-  "pull_requests": []
+  "issues": [
+    {
+      "key": "rounding",
+      "number": 1,
+      "url": "https://github.com/Zccff/devflow-agent-lab/issues/1"
+    },
+    {
+      "key": "inventory",
+      "number": 2,
+      "url": "https://github.com/Zccff/devflow-agent-lab/issues/2"
+    },
+    {
+      "key": "runbook",
+      "number": 3,
+      "url": "https://github.com/Zccff/devflow-agent-lab/issues/3"
+    },
+    {
+      "key": "dependency",
+      "number": 4,
+      "url": "https://github.com/Zccff/devflow-agent-lab/issues/4"
+    },
+    {
+      "key": "timeout",
+      "number": 5,
+      "url": "https://github.com/Zccff/devflow-agent-lab/issues/5"
+    },
+    {
+      "key": "status-question",
+      "number": 6,
+      "url": "https://github.com/Zccff/devflow-agent-lab/issues/6"
+    },
+    {
+      "key": "login-history",
+      "number": 7,
+      "url": "https://github.com/Zccff/devflow-agent-lab/issues/7"
+    },
+    {
+      "key": "login-current",
+      "number": 8,
+      "url": "https://github.com/Zccff/devflow-agent-lab/issues/8"
+    }
+  ],
+  "pull_requests": [
+    {
+      "key": "runbook",
+      "number": 9,
+      "url": "https://github.com/Zccff/devflow-agent-lab/pull/9",
+      "branch": "docs/release-runbook",
+      "expected_ci": "success"
+    },
+    {
+      "key": "rounding-fix",
+      "number": 10,
+      "url": "https://github.com/Zccff/devflow-agent-lab/pull/10",
+      "branch": "fix/decimal-rounding",
+      "expected_ci": "success"
+    },
+    {
+      "key": "inventory",
+      "number": 11,
+      "url": "https://github.com/Zccff/devflow-agent-lab/pull/11",
+      "branch": "feature/inventory-guard",
+      "expected_ci": "success"
+    },
+    {
+      "key": "login-regression",
+      "number": 12,
+      "url": "https://github.com/Zccff/devflow-agent-lab/pull/12",
+      "branch": "lab/login-expiry-regression",
+      "expected_ci": "failure"
+    }
+  ],
+  "inline_review_url": "https://github.com/Zccff/devflow-agent-lab/pull/12#discussion_r4240987487"
 }
