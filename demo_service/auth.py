@@ -26,7 +26,7 @@ def login(token: str, now: int) -> dict:
     try:
         username = validate_token(token, now)
         return {"status": 200, "user": username}
-    except (InvalidTokenError, ExpiredTokenError):
+    except InvalidTokenError:
         return {"status": 401, "error": "authentication required"}
     except Exception:
         return {"status": 500, "error": "internal server error"}
