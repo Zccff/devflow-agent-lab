@@ -1,0 +1,10 @@
+{
+  "owner": "Zccff",
+  "repo": "devflow-agent-lab",
+  "provider": "github",
+  "demo_mode": false,
+  "initial_sync_limit": 50,
+  "sync_issues": true,
+  "sync_pull_requests": true,
+  "sync_workflow_runs": true
+}

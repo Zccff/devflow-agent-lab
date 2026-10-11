@@ -12,6 +12,8 @@
 
 详细步骤见 [测试指南](docs/testing-guide.md)。生成后的对象链接保存在 [场景清单](fixtures/scenarios.json)。
 
+本次准备时，DevFlow 原有 211 项测试加本仓库新增 4 项受控节点测试共 **215 项通过**；真实 GitHub 对象也经过 DevFlow 同步函数的临时数据库验证。详情见 [验证记录](docs/verification.md)。真实模型问答和 RAG 质量评测需要连接仓库后另行执行。
+
 ## 仓库里有什么
 
 - `main`：基础登录与订单测试应通过；保留一个有明确 Issue 的金额舍入边界缺陷。

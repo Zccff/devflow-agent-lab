@@ -31,9 +31,10 @@ def main():
         python = backend / ".venv/bin/python"
     if not python.is_file():
         raise SystemExit("DevFlow backend virtual environment was not found")
-    files = [backend / "app/tests" / name for name in TEST_FILES]
-    if any(not path.is_file() for path in files):
+    expected = [backend / "app/tests" / name for name in TEST_FILES]
+    if any(not path.is_file() for path in expected):
         raise SystemExit("This DevFlow checkout does not contain all expected node tests")
+    files = sorted((backend / "app/tests").glob("test_*.py"))
     runtime = ROOT / "runtime"
     runtime.mkdir(exist_ok=True)
     report_file = runtime / "devflow-node-tests.xml"

@@ -4,7 +4,7 @@
 
 ## 1. 连接与同步
 
-在仓库接入页面选择 GitHub，Owner 填 `Zccff`，Repository 填 `devflow-agent-lab`。只读同步公开数据时可以先留空 Token。连接后再点击一次同步/刷新，获取默认上限 50 条的完整演示资料；初次接入默认数量较少。
+在仓库接入页面选择 GitHub，Owner 填 `Zccff`，Repository 填 `devflow-agent-lab`。读取公开基础数据时可以先留空 Token；本次实测匿名下载 Actions 日志返回 403，完整 CI 排查需要有 Actions 读取权限的 GitHub Token。连接后再点击一次同步/刷新，获取默认上限 50 条的完整演示资料；初次接入默认数量较少。
 
 期望看到开放与关闭的 Issue、开放与合并的 PR、成功与失败 CI。连续同步两次后，Issue/PR/CI 的 ID 与数量应保持一致，没有重复对象。
 
@@ -78,12 +78,18 @@ GitHub PR 的 review 评论与 DevFlow 的 ActionDraft 审批是不同机制。�
 
 DevFlow 源码中已有对应测试，常用文件为 test_chat_agent.py、test_workflow_orchestrator.py、test_context_compression.py、test_context_memory_projection.py、test_repos_sync.py。运行这些测试不要求修改业务源码。
 
-本仓库另提供 4 个受控测试：步骤预算停止、显式 Skill 拒绝工具、未知工具拒绝、权限错误不重试。用 DevFlow 已安装的 Python 环境运行以下脚本，结合上述原有测试验证节点，不启动服务，也不调用真实模型：
+本仓库另提供 4 个受控测试：步骤预算停止、显式 Skill 拒绝工具、未知工具拒绝、权限错误不重试。用 DevFlow 已安装的 Python 环境运行以下脚本，结合 DevFlow 原有完整测试集验证节点，不启动服务，也不调用真实模型：
 
 ```shell
 python tools/check_devflow_nodes.py --devflow-root "你的 DevFlow-AI 路径"
 ```
 
 结果保存到本地忽略目录 `runtime/`。这些受控测试与 GitHub CI 场景各有用途；正常聊天不能可靠地强制模型走每一条错误分支。
+
+`tools/check_devflow_sync.py` 还可用已登录的 GitHub CLI 读取真实演示对象，在临时 SQLite 数据库里运行 DevFlow 原有同步函数、连续同步去重、失败日志解析和代码关系提取。它只替换该测试进程的网络传输，不修改应用、不提取 Token，也不接入原有数据库：
+
+```shell
+python tools/check_devflow_sync.py --devflow-root "你的 DevFlow-AI 路径" --gh "GitHub CLI 的路径"
+```
 
 状态检查提供有限幂等；并发确认和远端成功后响应丢失仍需另外验证，不能仅凭重复点击一次就宣称完整恰好一次执行。
