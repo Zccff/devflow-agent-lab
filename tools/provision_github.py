@@ -71,7 +71,7 @@ class Provisioner:
         self.git("config", "user.email", f"{user['id']}+Zccff@users.noreply.github.com")
         self.git("config", "core.autocrlf", "false")
         helper = f'!"{Path(self.gh).resolve().as_posix()}" auth git-credential'
-        self.git("config", "credential.https://github.com.helper", "")
+        self.git("config", "--replace-all", "credential.https://github.com.helper", "")
         self.git("config", "--add", "credential.https://github.com.helper", helper)
         remotes = self.git("remote")
         if "origin" not in remotes.splitlines():
