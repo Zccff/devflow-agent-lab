@@ -1,0 +1,10 @@
+[project]
+name = "devflow-agent-lab"
+version = "0.1.0"
+description = "Synthetic repository for testing DevFlow AI agents"
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.devflow-lab]
+synthetic-data-only = true
+entrypoint = "demo_service.service.checkout"
