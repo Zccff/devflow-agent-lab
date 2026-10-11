@@ -1,7 +1,8 @@
-"""Legacy float implementation. The rounding PR supplies the intended Decimal fix."""
+from decimal import Decimal, ROUND_HALF_UP
 
 
 def calculate_total(unit_price: str, quantity: int) -> str:
     if quantity <= 0:
         raise ValueError("quantity must be positive")
-    return f"{float(unit_price) * quantity:.2f}"
+    total = Decimal(unit_price) * quantity
+    return format(total.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP), ".2f")
