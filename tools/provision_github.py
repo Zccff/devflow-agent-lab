@@ -6,6 +6,7 @@ Re-running reuses marker-tagged issues/PRs and does not merge the regression PR.
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -26,7 +27,10 @@ class Provisioner:
         self.manifest = {"repository": REPO, "url": f"https://github.com/{REPO}", "synthetic_only": True, "issues": [], "pull_requests": []}
 
     def command(self, args, *, check=True):
-        result = subprocess.run(args, cwd=ROOT, capture_output=True, text=True, encoding="utf-8")
+        environment = dict(os.environ)
+        environment["PYTHONUTF8"] = "1"
+        environment["PYTHONIOENCODING"] = "utf-8"
+        result = subprocess.run(args, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", env=environment)
         if check and result.returncode:
             raise RuntimeError(f"{args[0]} command failed: {result.stderr.strip()} {result.stdout.strip()}")
         return result
@@ -47,7 +51,7 @@ class Provisioner:
     def write(self, relative, content):
         target = ROOT / relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(content, encoding="utf-8")
+        target.write_text(content, encoding="utf-8", newline="\n")
 
     def checkpoint(self):
         self.write("runtime/provision-state.json", json.dumps(self.manifest, ensure_ascii=False, indent=2) + "\n")
@@ -131,7 +135,8 @@ class Provisioner:
         pr = next((item for item in prs if marker in (item.get("body") or "")), None)
         if pr is None:
             self.git("checkout", "main")
-            self.git("checkout", "-b", branch)
+            local_branch = self.command(["git", "show-ref", "--verify", "--quiet", f"refs/heads/{branch}"], check=False)
+            self.git("checkout", branch) if local_branch.returncode == 0 else self.git("checkout", "-b", branch)
             for name, content in files.items():
                 self.write(name, content)
             result = self.command([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"], check=False)
